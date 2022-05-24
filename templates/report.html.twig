@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Report{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+
+
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
+
+    <style>
+        .flex-wrapper {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .report-table,td,th{
+            border: 1px solid black;
+            padding: 20px;
+            margin-left: 100px;
+        }
+        .report-table{
+            border-collapse: collapse;
+        }
+
+        .report-form-element {
+            margin-bottom: 20px;
+            width: 100px;
+            height: 25px;
+        }
+    </style>
+</head>
+<body>
+{% block body %}
+    <div class="flex-wrapper">
+        {{ form_start(form, {'attr': {'method': 'post'}}) }}
+
+            <div class="flex-wrapper" style="flex-direction: column">
+                {{ form_widget(form.place, {'attr': {'class': 'report-form-element'}}) }}
+                {{ form_errors(form.place) }}
+
+                {{ form_widget(form.from, {'attr': {'class': 'report-form-element'}}) }}
+                {{ form_errors(form.from) }}
+
+                {{ form_widget(form.to, {'attr': {'class': 'report-form-element'}}) }}
+                {{ form_errors(form.to) }}
+                <button class="report-form-element" style="margin-top: 100px">Submit</button>
+            </div>
+
+
+
+        {{ form_end(form) }}
+        <table class="report-table">
+            <tr>
+                <th>Export name</th>
+                <th>date</th>
+                <th>time</th>
+                <th>User name</th>
+                <th>place</th>
+            </tr>
+            {% if filteredData is empty %}
+                <tr>
+                    <td colspan="5">
+                        No satisfied with you results
+                    </td>
+                </tr>
+            {% endif %}
+            {% for row in filteredData %}
+                <tr>
+                    <td>{{ row.exportName }}</td>
+                    <td>{{ row.date|date('Y-m-d') }}</td>
+                    <td>{{ row.time|date('H:i') }}</td>
+                    <td>{{ row.userName }}</td>
+                    <td>{{ row.place }}</td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+
+
+    </div>
+
+
+
+{% endblock %}
+</body>
+</html>
