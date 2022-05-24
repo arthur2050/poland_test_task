@@ -35,7 +35,7 @@ class ReportService
     public function getRowsByFilter(Request $request): array
     {
         $report = new Report();
-        $form = $this->formFactoryInterface->create(ReportFilterForm::class,);
+        $form = $this->formFactoryInterface->create(ReportFilterForm::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -18,6 +18,10 @@ class CreateTestDataCommand extends Command
 
     private $entityManager;
 
+    /**
+     * CreateTestDataCommand constructor.
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
@@ -27,25 +31,28 @@ class CreateTestDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Crete test data')
-        ;
+            ->setDescription('Crete test data');
     }
 
-
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $numberPlace = 1;
-        for($i=0;$i<20;$i++){
+        for ($i = 0; $i < 20; $i++) {
             $report = new Report();
             $number = $i;
             $number++;
-            if(($i +1) %3 == 0 ) {
+            if (($i + 1) % 3 == 0) {
                 $numberPlace++;
             }
             $report->setExportName("Export {$number}");
             $writeDate = new DateTime("-{$number} day");
             $report->setDate($writeDate);
-            $report->setTime($writeDate->setTime($number,$number+10,00));
+            $report->setTime($writeDate->setTime($number, $number + 10, 00));
             $report->setUserName("User {$number}");
             $report->setPlace("Place {$numberPlace}");
             $this->entityManager->persist($report);
